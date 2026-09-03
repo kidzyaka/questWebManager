@@ -1,14 +1,20 @@
 import { create } from 'zustand';
 import { AdbSession } from '../adb/session';
 import { DeviceService, BatteryInfo, StorageInfo, SystemInfo } from '../services/device';
+import { FilesService } from '../services/files';
+import { PmService } from '../services/pm';
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'authorizing' | 'connected';
+export type TabType = 'status' | 'files' | 'apps' | 'settings';
 
 type AppState = {
   status: ConnectionStatus;
+  activeTab: TabType;
   deviceInfo: string | null;
   session: AdbSession | null;
   deviceService: DeviceService | null;
+  filesService: FilesService | null;
+  pmService: PmService | null;
 
   battery: BatteryInfo | null;
   storage: StorageInfo | null;
@@ -16,6 +22,7 @@ type AppState = {
   isLoadingStats: boolean;
   isRebooting: boolean;
 
+  setActiveTab: (tab: TabType) => void;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   fetchStats: () => Promise<void>;
@@ -24,15 +31,20 @@ type AppState = {
 
 export const useStore = create<AppState>((set, get) => ({
   status: 'disconnected',
+  activeTab: 'status',
   deviceInfo: null,
   session: null,
   deviceService: null,
+  filesService: null,
+  pmService: null,
 
   battery: null,
   storage: null,
   systemInfo: null,
   isLoadingStats: false,
   isRebooting: false,
+
+  setActiveTab: (activeTab) => set({ activeTab }),
 
   connect: async () => {
     try {
@@ -43,8 +55,11 @@ export const useStore = create<AppState>((set, get) => ({
       session.onDisconnect(() => {
         set({
           status: 'disconnected',
+          activeTab: 'status',
           session: null,
           deviceService: null,
+          filesService: null,
+          pmService: null,
           deviceInfo: null,
           battery: null,
           storage: null,
@@ -68,11 +83,16 @@ export const useStore = create<AppState>((set, get) => ({
       });
 
       const deviceService = new DeviceService(session);
+      const filesService = new FilesService(session);
+      const pmService = new PmService(session);
 
       set({
         status: 'connected',
+        activeTab: 'status',
         session,
         deviceService,
+        filesService,
+        pmService,
         deviceInfo: session.deviceInfo,
       });
 
@@ -85,6 +105,8 @@ export const useStore = create<AppState>((set, get) => ({
         status: 'disconnected',
         session: null,
         deviceService: null,
+        filesService: null,
+        pmService: null,
         deviceInfo: null,
       });
     }
@@ -97,8 +119,11 @@ export const useStore = create<AppState>((set, get) => ({
     }
     set({
       status: 'disconnected',
+      activeTab: 'status',
       session: null,
       deviceService: null,
+      filesService: null,
+      pmService: null,
       deviceInfo: null,
       battery: null,
       storage: null,
@@ -138,7 +163,6 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       await deviceService.reboot('normal');
     } finally {
-      // Disconnect cleanly
       get().disconnect();
       set({ isRebooting: false });
     }
