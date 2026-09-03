@@ -1,9 +1,10 @@
 import React from 'react';
-import { Settings, FolderOpen, Package, RefreshCw, Activity, CheckCircle2, Info, Usb, ShieldAlert, MonitorSmartphone, AlertTriangle } from 'lucide-react';
+import { Settings, FolderOpen, Package, RefreshCw, Activity, CheckCircle2, Info, Usb, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { useStore } from './store';
+import { StatusTab } from '../ui/tabs/StatusTab';
 
 export const App: React.FC = () => {
-  const { status, deviceInfo, connect, disconnect } = useStore();
+  const { status, connect, disconnect } = useStore();
   const isSupported = 'usb' in navigator;
 
   return (
@@ -61,22 +62,13 @@ export const App: React.FC = () => {
 
       {/* Content Area */}
       <main className="flex-1 p-6 overflow-y-auto">
-        <div className="max-w-3xl mx-auto bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-8 mt-4">
-
-          {status === 'connected' ? (
-            <div className="text-center">
-              <MonitorSmartphone className="w-16 h-16 mx-auto mb-4 text-emerald-500" />
-              <h2 className="text-2xl font-bold text-gray-100 mb-3">Device Connected</h2>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-950/30 border border-emerald-900/50 rounded-full mb-8">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                <span className="text-emerald-400 font-medium">{deviceInfo}</span>
-              </div>
-              <p className="text-gray-400">Select an option from the sidebar to start managing your Quest.</p>
-            </div>
-          ) : (
-            <>
-
-              <div className={`flex flex-col items-center justify-center p-10 border rounded-lg mb-8 transition-colors ${
+        {status === 'connected' ? (
+          <div className="max-w-4xl mx-auto mt-2">
+            <StatusTab />
+          </div>
+        ) : (
+          <div className="max-w-3xl mx-auto bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-8 mt-4">
+            <div className={`flex flex-col items-center justify-center p-10 border rounded-lg mb-8 transition-colors ${
                 status === 'authorizing' ? 'bg-yellow-950/20 border-yellow-900/50' : 'bg-gray-950 border-gray-800'
               }`}>
                 {status === 'authorizing' ? (
@@ -129,9 +121,8 @@ export const App: React.FC = () => {
                   <li>Put on your headset and accept the <strong>"Allow USB debugging"</strong> prompt (check "Always allow from this computer" to avoid prompts in the future).</li>
                 </ol>
               </div>
-            </>
+            </div>
           )}
-        </div>
       </main>
     </div>
   );
