@@ -159,33 +159,33 @@ export const AppsTab: React.FC = () => {
       />
 
       {/* Toolbar & Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gray-900 border border-gray-800 p-4 rounded-xl shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-neutral-900 border border-neutral-800 p-3 rounded-xl shadow-sm">
         {/* Filter Tabs */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => setFilterType('user')}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
               filterType === 'user'
-                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
-                : 'bg-gray-800 text-gray-400 hover:text-gray-200'
+                ? 'bg-neutral-800 text-white border border-neutral-700'
+                : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200 border border-neutral-800'
             }`}
           >
             <span>User Apps</span>
-            <span className="text-xs px-1.5 py-0.5 rounded-full bg-black/20">
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-neutral-900 text-neutral-300">
               {userAppsCount}
             </span>
           </button>
 
           <button
             onClick={() => setFilterType('system')}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
               filterType === 'system'
-                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
-                : 'bg-gray-800 text-gray-400 hover:text-gray-200'
+                ? 'bg-neutral-800 text-white border border-neutral-700'
+                : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200 border border-neutral-800'
             }`}
           >
             <span>System Apps</span>
-            <span className="text-xs px-1.5 py-0.5 rounded-full bg-black/20">
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-neutral-900 text-neutral-300">
               {systemAppsCount}
             </span>
           </button>
@@ -194,29 +194,29 @@ export const AppsTab: React.FC = () => {
         {/* Search & Actions */}
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search packages..."
-              className="bg-gray-950 border border-gray-800 rounded-lg pl-9 pr-3 py-1.5 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-blue-500 w-48 sm:w-60"
+              className="bg-neutral-950 border border-neutral-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-neutral-600 w-44 sm:w-56"
             />
           </div>
 
           <button
             onClick={loadApps}
             title="Refresh list"
-            className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors"
+            className="p-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg border border-neutral-700 transition-colors"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-neutral-400' : ''}`} />
           </button>
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-2 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-blue-900/20"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-neutral-100 hover:bg-white text-neutral-900 text-xs font-medium rounded-lg transition-colors shadow-sm"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-3.5 h-3.5" />
             <span>Install APK</span>
           </button>
         </div>
@@ -225,10 +225,10 @@ export const AppsTab: React.FC = () => {
       {/* Action Toast Feedback */}
       {actionFeedback && (
         <div
-          className={`p-3 rounded-xl border text-sm flex items-center justify-between ${
+          className={`p-3 rounded-xl border text-xs flex items-center justify-between ${
             actionFeedback.isError
               ? 'bg-red-950/40 border-red-900/40 text-red-400'
-              : 'bg-emerald-950/40 border-emerald-900/40 text-emerald-400'
+              : 'bg-emerald-950/40 border-emerald-900/40 text-emerald-300'
           }`}
         >
           <span>{actionFeedback.msg}</span>
@@ -239,82 +239,82 @@ export const AppsTab: React.FC = () => {
       )}
 
       {/* Apps Table */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-300">
-            <thead className="bg-gray-950/60 text-xs uppercase tracking-wider text-gray-500 border-b border-gray-800">
+          <table className="w-full text-left text-xs text-neutral-300">
+            <thead className="bg-neutral-950/60 text-[10px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800">
               <tr>
                 <th className="px-5 py-3">Application</th>
                 <th className="px-5 py-3 w-56">Path</th>
-                <th className="px-5 py-3 w-40 text-right">Actions</th>
+                <th className="px-5 py-3 w-36 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-800/60">
+            <tbody className="divide-y divide-neutral-800/60">
               {loading && apps.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-5 py-8 text-center text-gray-500">
-                    <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-blue-500" />
+                  <td colSpan={3} className="px-5 py-8 text-center text-neutral-500">
+                    <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-neutral-400" />
                     Loading applications...
                   </td>
                 </tr>
               ) : filteredApps.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-5 py-8 text-center text-gray-500">
+                  <td colSpan={3} className="px-5 py-8 text-center text-neutral-500">
                     No applications found
                   </td>
                 </tr>
               ) : (
                 filteredApps.map((app) => (
-                  <tr key={app.packageName} className="hover:bg-gray-800/40 transition-colors group">
-                    <td className="px-5 py-3 flex items-center gap-3">
+                  <tr key={app.packageName} className="hover:bg-neutral-800/40 transition-colors group">
+                    <td className="px-5 py-2.5 flex items-center gap-3">
                       <div
-                        className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                           app.isSystem
-                            ? 'bg-gray-800 text-gray-400'
-                            : 'bg-emerald-950/50 text-emerald-400 border border-emerald-800/40'
+                            ? 'bg-neutral-800 text-neutral-500'
+                            : 'bg-neutral-800 text-neutral-300 border border-neutral-700'
                         }`}
                       >
-                        <Package className="w-5 h-5" />
+                        <Package className="w-4 h-4" />
                       </div>
                       <div className="truncate max-w-sm sm:max-w-md">
-                        <p className="font-medium text-gray-200 group-hover:text-blue-400 transition-colors truncate">
+                        <p className="font-medium text-neutral-200 group-hover:text-white transition-colors truncate text-xs">
                           {app.packageName}
                         </p>
-                        <span className="text-[10px] uppercase font-semibold text-gray-500">
+                        <span className="text-[9px] uppercase font-medium text-neutral-500">
                           {app.isSystem ? 'System' : 'Third-Party'}
                         </span>
                       </div>
                     </td>
 
-                    <td className="px-5 py-3 text-xs text-gray-500 font-mono truncate max-w-xs">
+                    <td className="px-5 py-2.5 text-[11px] text-neutral-500 font-mono truncate max-w-xs">
                       {app.apkPath}
                     </td>
 
-                    <td className="px-5 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                    <td className="px-5 py-2.5 text-right">
+                      <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => handleLaunch(app)}
                           disabled={actionLoading === app.packageName}
                           title="Launch on headset"
-                          className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-emerald-400 rounded transition-colors"
+                          className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded transition-colors"
                         >
-                          <Play className="w-4 h-4" />
+                          <Play className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleForceStop(app)}
                           disabled={actionLoading === app.packageName}
                           title="Force stop"
-                          className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-amber-400 rounded transition-colors"
+                          className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-amber-400 rounded transition-colors"
                         >
-                          <Square className="w-4 h-4" />
+                          <Square className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => setUninstallTarget(app)}
                           disabled={actionLoading === app.packageName}
                           title={app.isSystem ? 'Hide system app' : 'Uninstall app'}
-                          className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-red-400 rounded transition-colors"
+                          className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-red-400 rounded transition-colors"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </td>
@@ -328,42 +328,40 @@ export const AppsTab: React.FC = () => {
 
       {/* APK Installation Modal */}
       {installing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Package className="w-6 h-6 text-blue-500" />
+                <Package className="w-5 h-5 text-neutral-300" />
                 <div>
-                  <h3 className="text-base font-bold text-gray-100">APK Sideload</h3>
-                  <p className="text-xs text-gray-400 truncate max-w-xs">{installFileName}</p>
+                  <h3 className="text-sm font-bold text-neutral-100">APK Sideload</h3>
+                  <p className="text-xs text-neutral-400 truncate max-w-xs">{installFileName}</p>
                 </div>
               </div>
               {installResult && (
                 <button
                   onClick={() => setInstalling(false)}
-                  className="text-gray-500 hover:text-gray-300"
+                  className="text-neutral-500 hover:text-neutral-300"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               )}
             </div>
 
             {!installResult ? (
-              <div className="space-y-3 py-2">
-                <div className="flex justify-between text-xs text-gray-400">
+              <div className="space-y-2.5 py-1">
+                <div className="flex justify-between text-xs text-neutral-400">
                   <span className="flex items-center gap-2">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-400" />
+                    <RefreshCw className="w-3 h-3 animate-spin text-neutral-300" />
                     {installStage === 'uploading'
                       ? 'Uploading APK to headset...'
-                      : 'Installing on device (this may take up to a minute)...'}
+                      : 'Installing on device...'}
                   </span>
                   <span>{installStage === 'uploading' ? `${installProgress}%` : ''}</span>
                 </div>
-                <div className="w-full bg-gray-950 rounded-full h-2.5 overflow-hidden border border-gray-800">
+                <div className="w-full bg-neutral-950 rounded-full h-2 overflow-hidden border border-neutral-800">
                   <div
-                    className={`h-2.5 rounded-full transition-all duration-200 ${
-                      installStage === 'uploading' ? 'bg-blue-500' : 'bg-amber-500 animate-pulse'
-                    }`}
+                    className="h-2 rounded-full bg-neutral-200 transition-all duration-200"
                     style={{
                       width: installStage === 'uploading' ? `${installProgress}%` : '100%',
                     }}
@@ -372,7 +370,7 @@ export const AppsTab: React.FC = () => {
               </div>
             ) : (
               <div
-                className={`p-4 rounded-lg text-sm border space-y-2 ${
+                className={`p-3.5 rounded-lg text-xs border space-y-2 ${
                   installResult.success
                     ? 'bg-emerald-950/40 border-emerald-800/50 text-emerald-300'
                     : 'bg-red-950/40 border-red-800/50 text-red-300'
@@ -380,17 +378,17 @@ export const AppsTab: React.FC = () => {
               >
                 <div className="flex items-center gap-2 font-semibold">
                   {installResult.success ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   ) : (
-                    <AlertTriangle className="w-5 h-5 text-red-400" />
+                    <AlertTriangle className="w-4 h-4 text-red-400" />
                   )}
                   <span>{installResult.success ? 'Success' : 'Error'}</span>
                 </div>
-                <p className="text-xs text-gray-300 break-words">{installResult.message}</p>
-                <div className="flex justify-end pt-2">
+                <p className="text-neutral-300 break-words">{installResult.message}</p>
+                <div className="flex justify-end pt-1">
                   <button
                     onClick={() => setInstalling(false)}
-                    className="px-3.5 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-medium rounded-lg"
+                    className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-medium rounded-lg border border-neutral-700"
                   >
                     Done
                   </button>
@@ -403,30 +401,30 @@ export const AppsTab: React.FC = () => {
 
       {/* Uninstall Confirmation Modal */}
       {uninstallTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center gap-3 text-red-400">
-              <Trash2 className="w-6 h-6" />
-              <h3 className="text-lg font-bold text-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center gap-2.5 text-red-400">
+              <Trash2 className="w-5 h-5" />
+              <h3 className="text-sm font-bold text-neutral-100">
                 {uninstallTarget.isSystem ? 'Hide System App?' : 'Uninstall App?'}
               </h3>
             </div>
-            <p className="text-sm text-gray-300">
+            <p className="text-xs text-neutral-400 leading-relaxed">
               Are you sure you want to {uninstallTarget.isSystem ? 'hide' : 'uninstall'}{' '}
-              <strong className="text-white break-all">{uninstallTarget.packageName}</strong>?
+              <strong className="text-neutral-200 break-all">{uninstallTarget.packageName}</strong>?
               {uninstallTarget.isSystem &&
-                ' (System apps cannot be fully deleted, but will be disabled for the current user).'}
+                ' (System apps will be disabled for the primary user).'}
             </p>
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex justify-end gap-2.5 pt-2">
               <button
                 onClick={() => setUninstallTarget(null)}
-                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-medium rounded-lg"
+                className="px-3.5 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-medium rounded-lg border border-neutral-700"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUninstall}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg shadow-lg shadow-red-900/30"
+                className="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg"
               >
                 {uninstallTarget.isSystem ? 'Hide App' : 'Uninstall'}
               </button>

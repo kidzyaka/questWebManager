@@ -153,18 +153,18 @@ export const FilesTab: React.FC = () => {
   };
 
   const getFileIcon = (entry: FileEntry) => {
-    if (entry.isDir) return <Folder className="w-5 h-5 text-amber-400 shrink-0" />;
+    if (entry.isDir) return <Folder className="w-4 h-4 text-neutral-300 shrink-0" />;
     const ext = entry.name.split('.').pop()?.toLowerCase();
-    if (ext === 'apk') return <Package className="w-5 h-5 text-emerald-400 shrink-0" />;
+    if (ext === 'apk') return <Package className="w-4 h-4 text-neutral-300 shrink-0" />;
     if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext || ''))
-      return <FileImage className="w-5 h-5 text-blue-400 shrink-0" />;
+      return <FileImage className="w-4 h-4 text-neutral-400 shrink-0" />;
     if (['mp4', 'mkv', 'webm'].includes(ext || ''))
-      return <FileVideo className="w-5 h-5 text-purple-400 shrink-0" />;
+      return <FileVideo className="w-4 h-4 text-neutral-400 shrink-0" />;
     if (['mp3', 'ogg', 'wav'].includes(ext || ''))
-      return <FileAudio className="w-5 h-5 text-pink-400 shrink-0" />;
+      return <FileAudio className="w-4 h-4 text-neutral-400 shrink-0" />;
     if (['json', 'txt', 'xml', 'log'].includes(ext || ''))
-      return <FileCode className="w-5 h-5 text-gray-400 shrink-0" />;
-    return <FileIcon className="w-5 h-5 text-gray-400 shrink-0" />;
+      return <FileCode className="w-4 h-4 text-neutral-400 shrink-0" />;
+    return <FileIcon className="w-4 h-4 text-neutral-400 shrink-0" />;
   };
 
   return (
@@ -178,24 +178,24 @@ export const FilesTab: React.FC = () => {
       />
 
       {/* Action Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-gray-900 border border-gray-800 p-4 rounded-xl shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-neutral-900 border border-neutral-800 p-3 rounded-xl shadow-sm">
         {/* Navigation / Breadcrumbs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto text-sm text-gray-300 py-1 max-w-xl">
+        <div className="flex items-center gap-1.5 overflow-x-auto text-xs text-neutral-400 py-1 max-w-xl">
           <button
             onClick={() => loadDirectory('/')}
-            className="hover:text-white px-2 py-1 bg-gray-950/60 rounded border border-gray-800 hover:border-gray-700 transition-colors"
+            className="hover:text-white px-2 py-1 bg-neutral-950 rounded border border-neutral-800 hover:border-neutral-700 transition-colors"
           >
             /
           </button>
           {pathParts.map((part, index) => (
             <React.Fragment key={index}>
-              <ChevronRight className="w-3.5 h-3.5 text-gray-600 shrink-0" />
+              <ChevronRight className="w-3 h-3 text-neutral-600 shrink-0" />
               <button
                 onClick={() => navigateToSegment(index)}
                 className={`hover:text-white px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   index === pathParts.length - 1
-                    ? 'font-semibold text-blue-400 bg-blue-950/30 border border-blue-900/40'
-                    : 'bg-gray-950/60 border border-gray-800 hover:border-gray-700'
+                    ? 'font-medium text-white bg-neutral-800 border border-neutral-700'
+                    : 'bg-neutral-950 border border-neutral-800 hover:border-neutral-700'
                 }`}
               >
                 {part}
@@ -210,69 +210,69 @@ export const FilesTab: React.FC = () => {
             <button
               onClick={navigateUp}
               title="Go to parent directory"
-              className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors"
+              className="p-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg border border-neutral-700 transition-colors"
             >
-              <ArrowUp className="w-4 h-4" />
+              <ArrowUp className="w-3.5 h-3.5" />
             </button>
           )}
 
           <button
             onClick={() => loadDirectory(currentPath)}
             title="Refresh directory"
-            className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors"
+            className="p-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg border border-neutral-700 transition-colors"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-neutral-400' : ''}`} />
           </button>
 
           <button
             onClick={() => setNewFolderOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-medium rounded-lg border border-gray-700 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-medium rounded-lg border border-neutral-700 transition-colors"
           >
-            <FolderPlus className="w-4 h-4 text-amber-400" />
+            <FolderPlus className="w-3.5 h-3.5 text-neutral-400" />
             <span>New Folder</span>
           </button>
 
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="flex items-center gap-2 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-blue-900/20"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-neutral-100 hover:bg-white disabled:opacity-50 text-neutral-900 text-xs font-medium rounded-lg transition-colors shadow-sm"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-3.5 h-3.5" />
             <span>Upload File</span>
           </button>
         </div>
       </div>
 
       {/* File List Table */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
         {error && (
-          <div className="p-4 bg-red-950/40 border-b border-red-900/40 text-red-400 text-sm flex items-center gap-2">
+          <div className="p-3.5 bg-red-950/40 border-b border-red-900/40 text-red-400 text-xs flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-300">
-            <thead className="bg-gray-950/60 text-xs uppercase tracking-wider text-gray-500 border-b border-gray-800">
+          <table className="w-full text-left text-xs text-neutral-300">
+            <thead className="bg-neutral-950/60 text-[10px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800">
               <tr>
                 <th className="px-5 py-3">Name</th>
-                <th className="px-5 py-3 w-32">Size</th>
-                <th className="px-5 py-3 w-40">Date</th>
-                <th className="px-5 py-3 w-28 text-right">Actions</th>
+                <th className="px-5 py-3 w-28">Size</th>
+                <th className="px-5 py-3 w-36">Date</th>
+                <th className="px-5 py-3 w-24 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-800/60">
+            <tbody className="divide-y divide-neutral-800/60">
               {loading && entries.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-5 py-8 text-center text-gray-500">
-                    <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-blue-500" />
+                  <td colSpan={4} className="px-5 py-8 text-center text-neutral-500">
+                    <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-neutral-400" />
                     Loading files...
                   </td>
                 </tr>
               ) : entries.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-5 py-8 text-center text-gray-500">
+                  <td colSpan={4} className="px-5 py-8 text-center text-neutral-500">
                     Directory is empty
                   </td>
                 </tr>
@@ -280,35 +280,35 @@ export const FilesTab: React.FC = () => {
                 entries.map((entry) => (
                   <tr
                     key={entry.path}
-                    className="hover:bg-gray-800/40 transition-colors group cursor-pointer"
+                    className="hover:bg-neutral-800/40 transition-colors group cursor-pointer"
                     onClick={() => {
                       if (entry.isDir) loadDirectory(entry.path);
                     }}
                   >
-                    <td className="px-5 py-3 flex items-center gap-3">
+                    <td className="px-5 py-2.5 flex items-center gap-2.5">
                       {getFileIcon(entry)}
-                      <span className="font-medium text-gray-200 group-hover:text-blue-400 transition-colors truncate max-w-md">
+                      <span className="font-medium text-neutral-200 group-hover:text-white transition-colors truncate max-w-md">
                         {entry.name}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-gray-400 text-xs font-mono">
+                    <td className="px-5 py-2.5 text-neutral-400 font-mono text-[11px]">
                       {entry.formattedSize}
                     </td>
-                    <td className="px-5 py-3 text-gray-500 text-xs whitespace-nowrap">
+                    <td className="px-5 py-2.5 text-neutral-500 text-[11px] whitespace-nowrap">
                       {entry.date}
                     </td>
                     <td
-                      className="px-5 py-3 text-right"
-                      onClick={(e) => e.stopPropagation()} // don't trigger row navigation
+                      className="px-5 py-2.5 text-right"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <div className="flex items-center justify-end gap-1">
                         {!entry.isDir && (
                           <button
                             onClick={() => handleDownload(entry)}
                             title="Download to PC"
-                            className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-emerald-400 rounded transition-colors"
+                            className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded transition-colors"
                           >
-                            <Download className="w-4 h-4" />
+                            <Download className="w-3.5 h-3.5" />
                           </button>
                         )}
                         <button
@@ -317,16 +317,16 @@ export const FilesTab: React.FC = () => {
                             setRenameValue(entry.name);
                           }}
                           title="Rename"
-                          className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-blue-400 rounded transition-colors"
+                          className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded transition-colors"
                         >
-                          <Edit2 className="w-4 h-4" />
+                          <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => setDeleteTarget(entry)}
                           title="Delete"
-                          className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-red-400 rounded transition-colors"
+                          className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-red-400 rounded transition-colors"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </td>
@@ -340,24 +340,24 @@ export const FilesTab: React.FC = () => {
 
       {/* Upload Progress Modal */}
       {uploading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
-              <Upload className="w-6 h-6 text-blue-500 animate-bounce" />
+              <Upload className="w-5 h-5 text-neutral-300" />
               <div>
-                <h3 className="text-base font-bold text-gray-100">Uploading File</h3>
-                <p className="text-xs text-gray-400 truncate max-w-xs">{uploadFileName}</p>
+                <h3 className="text-sm font-bold text-neutral-100">Uploading File</h3>
+                <p className="text-xs text-neutral-400 truncate max-w-xs">{uploadFileName}</p>
               </div>
             </div>
 
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs text-gray-400">
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs text-neutral-400">
                 <span>Transferring...</span>
                 <span>{uploadProgress}%</span>
               </div>
-              <div className="w-full bg-gray-950 rounded-full h-2.5 overflow-hidden border border-gray-800">
+              <div className="w-full bg-neutral-950 rounded-full h-2 overflow-hidden border border-neutral-800">
                 <div
-                  className="h-2.5 rounded-full bg-blue-500 transition-all duration-200"
+                  className="h-2 rounded-full bg-neutral-200 transition-all duration-200"
                   style={{ width: `${uploadProgress}%` }}
                 ></div>
               </div>
@@ -368,44 +368,44 @@ export const FilesTab: React.FC = () => {
 
       {/* New Folder Modal */}
       {newFolderOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
           <form
             onSubmit={handleCreateFolder}
-            className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4"
+            className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4"
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-100">Create New Folder</h3>
+              <h3 className="text-sm font-bold text-neutral-100">Create New Folder</h3>
               <button
                 type="button"
                 onClick={() => setNewFolderOpen(false)}
-                className="text-gray-500 hover:text-gray-300"
+                className="text-neutral-500 hover:text-neutral-300"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1.5">Folder Name</label>
+              <label className="text-xs text-neutral-400 block mb-1.5">Folder Name</label>
               <input
                 type="text"
                 autoFocus
                 value={newFolderName}
                 onChange={(e) => setNewFolderName(e.target.value)}
                 placeholder="e.g. MyFolder"
-                className="w-full bg-gray-950 border border-gray-800 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500"
+                className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-neutral-600"
               />
             </div>
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex justify-end gap-2.5 pt-2">
               <button
                 type="button"
                 onClick={() => setNewFolderOpen(false)}
-                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-medium rounded-lg"
+                className="px-3.5 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-medium rounded-lg border border-neutral-700"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={!newFolderName.trim()}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg"
+                className="px-3.5 py-1.5 bg-neutral-100 hover:bg-white disabled:opacity-50 text-neutral-900 text-xs font-medium rounded-lg"
               >
                 Create
               </button>
@@ -416,43 +416,43 @@ export const FilesTab: React.FC = () => {
 
       {/* Rename Modal */}
       {renameTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
           <form
             onSubmit={handleRename}
-            className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4"
+            className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4"
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-100">Rename</h3>
+              <h3 className="text-sm font-bold text-neutral-100">Rename</h3>
               <button
                 type="button"
                 onClick={() => setRenameTarget(null)}
-                className="text-gray-500 hover:text-gray-300"
+                className="text-neutral-500 hover:text-neutral-300"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1.5">New Name</label>
+              <label className="text-xs text-neutral-400 block mb-1.5">New Name</label>
               <input
                 type="text"
                 autoFocus
                 value={renameValue}
                 onChange={(e) => setRenameValue(e.target.value)}
-                className="w-full bg-gray-950 border border-gray-800 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500"
+                className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-neutral-600"
               />
             </div>
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex justify-end gap-2.5 pt-2">
               <button
                 type="button"
                 onClick={() => setRenameTarget(null)}
-                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-medium rounded-lg"
+                className="px-3.5 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-medium rounded-lg border border-neutral-700"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={!renameValue.trim() || renameValue === renameTarget.name}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg"
+                className="px-3.5 py-1.5 bg-neutral-100 hover:bg-white disabled:opacity-50 text-neutral-900 text-xs font-medium rounded-lg"
               >
                 Rename
               </button>
@@ -463,27 +463,27 @@ export const FilesTab: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center gap-3 text-red-400">
-              <Trash2 className="w-6 h-6" />
-              <h3 className="text-lg font-bold text-gray-100">Confirm Deletion</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center gap-2.5 text-red-400">
+              <Trash2 className="w-5 h-5" />
+              <h3 className="text-sm font-bold text-neutral-100">Confirm Deletion</h3>
             </div>
-            <p className="text-sm text-gray-300">
+            <p className="text-xs text-neutral-400 leading-relaxed">
               Are you sure you want to delete{' '}
-              <strong className="text-white break-all">{deleteTarget.name}</strong>?
+              <strong className="text-neutral-200 break-all">{deleteTarget.name}</strong>?
               {deleteTarget.isDir && ' This will remove all contents inside this folder.'}
             </p>
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex justify-end gap-2.5 pt-2">
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-medium rounded-lg"
+                className="px-3.5 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-medium rounded-lg border border-neutral-700"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg shadow-lg shadow-red-900/30"
+                className="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg"
               >
                 Delete
               </button>

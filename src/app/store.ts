@@ -3,9 +3,37 @@ import { AdbSession } from '../adb/session';
 import { DeviceService, BatteryInfo, StorageInfo, SystemInfo } from '../services/device';
 import { FilesService } from '../services/files';
 import { PmService } from '../services/pm';
+import { SettingsService } from '../services/settings';
+import { PowerService } from '../services/power';
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'authorizing' | 'connected';
 export type TabType = 'status' | 'files' | 'apps' | 'settings';
+
+export interface SettingPreset {
+  id: string;
+  name: string;
+  timestamp: number;
+  values: Record<string, string>;
+}
+
+const PRESETS_STORAGE_KEY = 'qwm_settings_presets';
+
+function loadPresetsFromStorage(): SettingPreset[] {
+  try {
+    const raw = localStorage.getItem(PRESETS_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function savePresetsToStorage(presets: SettingPreset[]): void {
+  try {
+    localStorage.setItem(PRESETS_STORAGE_KEY, JSON.stringify(presets));
+  } catch (e) {
+    console.error('Failed to save presets to localStorage:', e);
+  }
+}
 
 type AppState = {
   status: ConnectionStatus;
@@ -15,6 +43,8 @@ type AppState = {
   deviceService: DeviceService | null;
   filesService: FilesService | null;
   pmService: PmService | null;
+  settingsService: SettingsService | null;
+  powerService: PowerService | null;
 
   battery: BatteryInfo | null;
   storage: StorageInfo | null;
@@ -22,11 +52,16 @@ type AppState = {
   isLoadingStats: boolean;
   isRebooting: boolean;
 
+  presets: SettingPreset[];
+
   setActiveTab: (tab: TabType) => void;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   fetchStats: () => Promise<void>;
-  reboot: () => Promise<void>;
+  reboot: (target?: 'normal' | 'recovery' | 'bootloader') => Promise<void>;
+  shutdown: () => Promise<void>;
+  savePreset: (name: string, values: Record<string, string>) => void;
+  deletePreset: (id: string) => void;
 };
 
 export const useStore = create<AppState>((set, get) => ({
@@ -37,12 +72,16 @@ export const useStore = create<AppState>((set, get) => ({
   deviceService: null,
   filesService: null,
   pmService: null,
+  settingsService: null,
+  powerService: null,
 
   battery: null,
   storage: null,
   systemInfo: null,
   isLoadingStats: false,
   isRebooting: false,
+
+  presets: loadPresetsFromStorage(),
 
   setActiveTab: (activeTab) => set({ activeTab }),
 
@@ -60,6 +99,8 @@ export const useStore = create<AppState>((set, get) => ({
           deviceService: null,
           filesService: null,
           pmService: null,
+          settingsService: null,
+          powerService: null,
           deviceInfo: null,
           battery: null,
           storage: null,
@@ -85,6 +126,8 @@ export const useStore = create<AppState>((set, get) => ({
       const deviceService = new DeviceService(session);
       const filesService = new FilesService(session);
       const pmService = new PmService(session);
+      const settingsService = new SettingsService(session);
+      const powerService = new PowerService(session);
 
       set({
         status: 'connected',
@@ -93,6 +136,8 @@ export const useStore = create<AppState>((set, get) => ({
         deviceService,
         filesService,
         pmService,
+        settingsService,
+        powerService,
         deviceInfo: session.deviceInfo,
       });
 
@@ -107,6 +152,8 @@ export const useStore = create<AppState>((set, get) => ({
         deviceService: null,
         filesService: null,
         pmService: null,
+        settingsService: null,
+        powerService: null,
         deviceInfo: null,
       });
     }
@@ -124,6 +171,8 @@ export const useStore = create<AppState>((set, get) => ({
       deviceService: null,
       filesService: null,
       pmService: null,
+      settingsService: null,
+      powerService: null,
       deviceInfo: null,
       battery: null,
       storage: null,
@@ -155,16 +204,47 @@ export const useStore = create<AppState>((set, get) => ({
     }
   },
 
-  reboot: async () => {
-    const { deviceService } = get();
-    if (!deviceService) return;
+  reboot: async (target = 'normal') => {
+    const { powerService } = get();
+    if (!powerService) return;
 
     set({ isRebooting: true });
     try {
-      await deviceService.reboot('normal');
+      await powerService.reboot(target);
     } finally {
       get().disconnect();
       set({ isRebooting: false });
     }
+  },
+
+  shutdown: async () => {
+    const { powerService } = get();
+    if (!powerService) return;
+
+    set({ isRebooting: true });
+    try {
+      await powerService.shutdown();
+    } finally {
+      get().disconnect();
+      set({ isRebooting: false });
+    }
+  },
+
+  savePreset: (name, values) => {
+    const newPreset: SettingPreset = {
+      id: 'preset_' + Date.now(),
+      name,
+      timestamp: Date.now(),
+      values,
+    };
+    const updated = [newPreset, ...get().presets];
+    set({ presets: updated });
+    savePresetsToStorage(updated);
+  },
+
+  deletePreset: (id) => {
+    const updated = get().presets.filter((p) => p.id !== id);
+    set({ presets: updated });
+    savePresetsToStorage(updated);
   },
 }));

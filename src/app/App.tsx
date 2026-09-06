@@ -15,6 +15,7 @@ import { useStore } from './store';
 import { StatusTab } from '../ui/tabs/StatusTab';
 import { FilesTab } from '../ui/tabs/FilesTab';
 import { AppsTab } from '../ui/tabs/AppsTab';
+import { SettingsTab } from '../ui/tabs/SettingsTab';
 
 export const App: React.FC = () => {
   const { status, activeTab, setActiveTab, connect, disconnect } = useStore();
@@ -22,10 +23,10 @@ export const App: React.FC = () => {
   const isConnected = status === 'connected';
 
   return (
-    <div className="min-h-screen flex bg-gray-950 text-gray-100 relative pt-0">
+    <div className="min-h-screen flex bg-neutral-950 text-neutral-100 relative pt-0 font-sans">
       {!isSupported && (
-        <div className="absolute top-0 left-0 right-0 z-50 bg-red-500/10 text-red-400 p-3 flex items-center justify-center gap-3 border-b border-red-500/20 backdrop-blur-md">
-          <AlertTriangle className="w-5 h-5 shrink-0" />
+        <div className="absolute top-0 left-0 right-0 z-50 bg-red-950/80 text-red-300 p-3 flex items-center justify-center gap-3 border-b border-red-900/50 backdrop-blur-md">
+          <AlertTriangle className="w-5 h-5 shrink-0 text-red-400" />
           <p className="text-sm font-medium">
             Your browser is not supported. WebUSB is required for this application to function. Please use a Chromium-based browser (like Google Chrome or Microsoft Edge).
           </p>
@@ -33,90 +34,90 @@ export const App: React.FC = () => {
       )}
 
       {/* Sidebar / Tabs */}
-      <nav className="w-64 bg-gray-900 border-r border-gray-800 p-4 flex flex-col gap-2">
-        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-2">
+      <nav className="w-64 bg-neutral-900 border-r border-neutral-800 p-4 flex flex-col gap-1.5">
+        <div className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mb-2 mt-2 px-2">
           Device
         </div>
         <button
           onClick={() => isConnected && setActiveTab('status')}
           disabled={!isConnected}
-          className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm ${
             !isConnected
-              ? 'text-gray-500 opacity-50 cursor-not-allowed'
+              ? 'text-neutral-600 opacity-50 cursor-not-allowed'
               : activeTab === 'status'
-              ? 'bg-gray-800 text-blue-400 font-medium'
-              : 'text-gray-400 hover:bg-gray-800/60 hover:text-gray-200'
+              ? 'bg-neutral-800 text-white font-medium border border-neutral-700'
+              : 'text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200'
           }`}
         >
-          <Activity className="w-5 h-5" />
+          <Activity className="w-4 h-4" />
           Status
         </button>
 
-        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">
+        <div className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mt-6 mb-2 px-2">
           Management
         </div>
         <button
           onClick={() => isConnected && setActiveTab('files')}
           disabled={!isConnected}
-          className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm ${
             !isConnected
-              ? 'text-gray-500 opacity-50 cursor-not-allowed'
+              ? 'text-neutral-600 opacity-50 cursor-not-allowed'
               : activeTab === 'files'
-              ? 'bg-gray-800 text-blue-400 font-medium'
-              : 'text-gray-400 hover:bg-gray-800/60 hover:text-gray-200'
+              ? 'bg-neutral-800 text-white font-medium border border-neutral-700'
+              : 'text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200'
           }`}
         >
-          <FolderOpen className="w-5 h-5" />
+          <FolderOpen className="w-4 h-4" />
           File Manager
         </button>
 
         <button
           onClick={() => isConnected && setActiveTab('apps')}
           disabled={!isConnected}
-          className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm ${
             !isConnected
-              ? 'text-gray-500 opacity-50 cursor-not-allowed'
+              ? 'text-neutral-600 opacity-50 cursor-not-allowed'
               : activeTab === 'apps'
-              ? 'bg-gray-800 text-blue-400 font-medium'
-              : 'text-gray-400 hover:bg-gray-800/60 hover:text-gray-200'
+              ? 'bg-neutral-800 text-white font-medium border border-neutral-700'
+              : 'text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200'
           }`}
         >
-          <Package className="w-5 h-5" />
+          <Package className="w-4 h-4" />
           Apps (APK)
         </button>
 
         <button
           onClick={() => isConnected && setActiveTab('settings')}
           disabled={!isConnected}
-          className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm ${
             !isConnected
-              ? 'text-gray-500 opacity-50 cursor-not-allowed'
+              ? 'text-neutral-600 opacity-50 cursor-not-allowed'
               : activeTab === 'settings'
-              ? 'bg-gray-800 text-blue-400 font-medium'
-              : 'text-gray-400 hover:bg-gray-800/60 hover:text-gray-200'
+              ? 'bg-neutral-800 text-white font-medium border border-neutral-700'
+              : 'text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200'
           }`}
         >
-          <Settings className="w-5 h-5" />
+          <Settings className="w-4 h-4" />
           Settings
         </button>
 
         {/* Connection Status (Bottom Left) */}
-        <div className="mt-auto pt-4 border-t border-gray-800">
-          <div className="flex items-center justify-between px-3 py-2.5 bg-gray-950/50 rounded-md border border-gray-800/50">
-            <div className="flex items-center gap-3 text-sm text-gray-400">
+        <div className="mt-auto pt-4 border-t border-neutral-800">
+          <div className="flex items-center justify-between px-3 py-2.5 bg-neutral-950/80 rounded-lg border border-neutral-800">
+            <div className="flex items-center gap-2.5 text-xs text-neutral-400">
               {isConnected ? (
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]"></span>
               ) : status === 'authorizing' || status === 'connecting' ? (
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)] animate-pulse"></span>
+                <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.5)] animate-pulse"></span>
               ) : (
-                <span className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
+                <span className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.5)]"></span>
               )}
               <span className="font-medium capitalize">{status}</span>
             </div>
             {isConnected && (
               <button
                 onClick={disconnect}
-                className="text-xs text-red-400 hover:text-red-300 transition-colors"
+                className="text-xs text-neutral-500 hover:text-red-400 transition-colors"
               >
                 Disconnect
               </button>
@@ -132,52 +133,43 @@ export const App: React.FC = () => {
             {activeTab === 'status' && <StatusTab />}
             {activeTab === 'files' && <FilesTab />}
             {activeTab === 'apps' && <AppsTab />}
-            {activeTab === 'settings' && (
-              <div className="bg-gray-900 border border-gray-800 p-12 rounded-xl text-center space-y-3">
-                <Settings className="w-12 h-12 text-gray-600 mx-auto" />
-                <h3 className="text-xl font-bold text-gray-100">Device Settings</h3>
-                <p className="text-sm text-gray-400 max-w-md mx-auto">
-                  Tweaks, refresh rate selection, guardian settings, and developer options will be
-                  available in Milestone M3.
-                </p>
-              </div>
-            )}
+            {activeTab === 'settings' && <SettingsTab />}
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-8 mt-4">
+          <div className="max-w-2xl mx-auto bg-neutral-900 rounded-xl border border-neutral-800 p-8 mt-6">
             <div
-              className={`flex flex-col items-center justify-center p-10 border rounded-lg mb-8 transition-colors ${
+              className={`flex flex-col items-center justify-center p-10 border rounded-xl mb-8 transition-colors ${
                 status === 'authorizing'
-                  ? 'bg-yellow-950/20 border-yellow-900/50'
-                  : 'bg-gray-950 border-gray-800'
+                  ? 'bg-amber-950/20 border-amber-900/40'
+                  : 'bg-neutral-950 border-neutral-800'
               }`}
             >
               {status === 'authorizing' ? (
                 <>
-                  <ShieldAlert className="w-12 h-12 mb-5 text-yellow-500 animate-pulse" />
-                  <p className="font-medium text-lg text-yellow-200 mb-2">Check your Headset</p>
-                  <p className="text-sm text-yellow-500/80 mb-0 text-center max-w-md">
+                  <ShieldAlert className="w-10 h-10 mb-4 text-amber-400 animate-pulse" />
+                  <p className="font-medium text-base text-amber-200 mb-1">Check your Headset</p>
+                  <p className="text-xs text-amber-400/80 text-center max-w-sm">
                     Please put on your headset and accept the <strong>"Allow USB debugging"</strong>{' '}
                     prompt to continue.
                   </p>
                 </>
               ) : (
                 <>
-                  <Usb className="w-12 h-12 mb-5 text-gray-500 opacity-80" />
-                  <p className="font-medium text-lg text-gray-200 mb-2">
+                  <Usb className="w-10 h-10 mb-4 text-neutral-500" />
+                  <p className="font-medium text-base text-neutral-200 mb-1">
                     {status === 'connecting' ? 'Connecting...' : 'Waiting for connection'}
                   </p>
-                  <p className="text-sm text-gray-500 mb-6 text-center max-w-md">
+                  <p className="text-xs text-neutral-500 mb-6 text-center max-w-sm">
                     Connect your headset via USB cable. Ensure it is powered on and awake.
                   </p>
 
                   <button
                     onClick={connect}
                     disabled={status === 'connecting' || !isSupported}
-                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-md transition-colors flex items-center gap-2 font-medium shadow-lg shadow-blue-900/20"
+                    className="bg-neutral-100 hover:bg-white text-neutral-900 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2 font-medium text-sm shadow-sm"
                   >
                     <RefreshCw
-                      className={`w-4 h-4 ${status === 'connecting' ? 'animate-spin' : ''}`}
+                      className={`w-3.5 h-3.5 ${status === 'connecting' ? 'animate-spin' : ''}`}
                     />
                     {status === 'connecting' ? 'Connecting...' : 'Connect Device'}
                   </button>
@@ -186,26 +178,26 @@ export const App: React.FC = () => {
             </div>
 
             {/* Instructions */}
-            <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-200 mb-4 flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-blue-500" />
+            <div className="bg-neutral-950 border border-neutral-800/80 rounded-xl p-6">
+              <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-neutral-400" />
                 How to enable Developer Mode
               </h3>
 
-              <div className="flex gap-3 items-start bg-blue-900/20 border border-blue-800/30 p-4 rounded-md mb-5 text-sm text-blue-200">
-                <Info className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
+              <div className="flex gap-3 items-start bg-neutral-900 border border-neutral-800 p-3.5 rounded-lg mb-4 text-xs text-neutral-300">
+                <Info className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-blue-300 mb-1">
+                  <p className="font-medium text-neutral-200 mb-0.5">
                     Prerequisite: Developer Status
                   </p>
-                  <p>
+                  <p className="text-neutral-400">
                     Before the option appears in your app, you must register as a Meta developer and
                     verify your account. Go to the{' '}
                     <a
                       href="https://developers.meta.com/horizon/"
                       target="_blank"
                       rel="noreferrer"
-                      className="text-blue-400 hover:text-blue-300 underline font-medium"
+                      className="text-neutral-200 underline font-medium hover:text-white"
                     >
                       Meta Horizon Developer Dashboard
                     </a>{' '}
@@ -214,14 +206,14 @@ export const App: React.FC = () => {
                 </div>
               </div>
 
-              <ol className="list-decimal list-inside space-y-3 text-sm text-gray-300">
-                <li>Open the <strong>Meta Horizon</strong> app on your phone.</li>
-                <li>Go to <strong>Menu &gt; Devices</strong> and select your headset.</li>
-                <li>Navigate to <strong>Headset Settings &gt; Developer Mode</strong>.</li>
-                <li>Toggle <strong>Developer Mode</strong> on.</li>
+              <ol className="list-decimal list-inside space-y-2 text-xs text-neutral-400 leading-relaxed">
+                <li>Open the <strong className="text-neutral-300">Meta Horizon</strong> app on your phone.</li>
+                <li>Go to <strong className="text-neutral-300">Menu &gt; Devices</strong> and select your headset.</li>
+                <li>Navigate to <strong className="text-neutral-300">Headset Settings &gt; Developer Mode</strong>.</li>
+                <li>Toggle <strong className="text-neutral-300">Developer Mode</strong> on.</li>
                 <li>Connect the headset to this PC using a USB cable.</li>
                 <li>
-                  Put on your headset and accept the <strong>"Allow USB debugging"</strong> prompt
+                  Put on your headset and accept the <strong className="text-neutral-300">"Allow USB debugging"</strong> prompt
                   (check "Always allow from this computer" to avoid prompts in the future).
                 </li>
               </ol>
