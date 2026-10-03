@@ -5,9 +5,10 @@ import { FilesService } from '../services/files';
 import { PmService } from '../services/pm';
 import { SettingsService } from '../services/settings';
 import { PowerService } from '../services/power';
+import { MediaService } from '../services/media';
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'authorizing' | 'connected';
-export type TabType = 'status' | 'files' | 'apps' | 'settings';
+export type TabType = 'status' | 'files' | 'apps' | 'settings' | 'media';
 
 export interface SettingPreset {
   id: string;
@@ -45,6 +46,7 @@ type AppState = {
   pmService: PmService | null;
   settingsService: SettingsService | null;
   powerService: PowerService | null;
+  mediaService: MediaService | null;
 
   battery: BatteryInfo | null;
   storage: StorageInfo | null;
@@ -74,6 +76,7 @@ export const useStore = create<AppState>((set, get) => ({
   pmService: null,
   settingsService: null,
   powerService: null,
+  mediaService: null,
 
   battery: null,
   storage: null,
@@ -101,6 +104,7 @@ export const useStore = create<AppState>((set, get) => ({
           pmService: null,
           settingsService: null,
           powerService: null,
+          mediaService: null,
           deviceInfo: null,
           battery: null,
           storage: null,
@@ -128,6 +132,7 @@ export const useStore = create<AppState>((set, get) => ({
       const pmService = new PmService(session);
       const settingsService = new SettingsService(session);
       const powerService = new PowerService(session);
+      const mediaService = new MediaService(session);
 
       set({
         status: 'connected',
@@ -138,6 +143,7 @@ export const useStore = create<AppState>((set, get) => ({
         pmService,
         settingsService,
         powerService,
+        mediaService,
         deviceInfo: session.deviceInfo,
       });
 
@@ -154,6 +160,7 @@ export const useStore = create<AppState>((set, get) => ({
         pmService: null,
         settingsService: null,
         powerService: null,
+        mediaService: null,
         deviceInfo: null,
       });
     }
@@ -173,6 +180,7 @@ export const useStore = create<AppState>((set, get) => ({
       pmService: null,
       settingsService: null,
       powerService: null,
+      mediaService: null,
       deviceInfo: null,
       battery: null,
       storage: null,

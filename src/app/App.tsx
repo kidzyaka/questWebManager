@@ -10,12 +10,14 @@ import {
   Usb,
   ShieldAlert,
   AlertTriangle,
+  Image,
 } from 'lucide-react';
 import { useStore } from './store';
 import { StatusTab } from '../ui/tabs/StatusTab';
 import { FilesTab } from '../ui/tabs/FilesTab';
 import { AppsTab } from '../ui/tabs/AppsTab';
 import { SettingsTab } from '../ui/tabs/SettingsTab';
+import { MediaTab } from '../ui/tabs/MediaTab';
 
 export const App: React.FC = () => {
   const { status, activeTab, setActiveTab, connect, disconnect } = useStore();
@@ -69,6 +71,21 @@ export const App: React.FC = () => {
         >
           <FolderOpen className="w-4 h-4" />
           File Manager
+        </button>
+
+        <button
+          onClick={() => isConnected && setActiveTab('media')}
+          disabled={!isConnected}
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm ${
+            !isConnected
+              ? 'text-neutral-600 opacity-50 cursor-not-allowed'
+              : activeTab === 'media'
+              ? 'bg-neutral-800 text-white font-medium border border-neutral-700'
+              : 'text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200'
+          }`}
+        >
+          <Image className="w-4 h-4" />
+          Media Gallery
         </button>
 
         <button
@@ -132,6 +149,7 @@ export const App: React.FC = () => {
           <div className="max-w-5xl mx-auto mt-2">
             {activeTab === 'status' && <StatusTab />}
             {activeTab === 'files' && <FilesTab />}
+            {activeTab === 'media' && <MediaTab />}
             {activeTab === 'apps' && <AppsTab />}
             {activeTab === 'settings' && <SettingsTab />}
           </div>

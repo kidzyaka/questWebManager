@@ -185,8 +185,13 @@ export class AdbSync {
    */
   async pull(
     remotePath: string,
-    onProgress?: (received: number) => void
+    onProgress?: (received: number) => void,
+    signal?: AbortSignal
   ): Promise<Uint8Array> {
+    if (signal?.aborted) {
+      throw new DOMException('The user aborted a request.', 'AbortError');
+    }
+
     const stream = await this.session.openStream('sync:');
     const reader = new SyncStreamReader(stream);
 
@@ -205,6 +210,10 @@ export class AdbSync {
       let totalReceived = 0;
 
       while (true) {
+        if (signal?.aborted) {
+          throw new DOMException('The user aborted a request.', 'AbortError');
+        }
+
         const headerBytes = await reader.readExact(8);
         const { id, arg } = parseHeader(headerBytes);
 
